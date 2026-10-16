@@ -11,16 +11,35 @@
 
 int main(void) {
   
-  if (0 > BTN_init()) {
-    return 0;
-  }
-
-  while (1) {
-    if (BTN_check_clear_pressed(BTN0)) {
-      LED_toggle(LED0);
-      printk("Button 0 pressed\n");
+    if (BTN_init() < 0) {
+        return 0;
     }
-    k_msleep(SLEEP_MS);
-  }
+
+    if (LED_init() != 0) {
+        return 0;
+    }
+
+    uint8_t brightness = 0;
+
+    LED_pwm(LED0, brightness);
+
+    while (1) {
+
+        if (BTN_check_clear_pressed(BTN0)) {
+
+            brightness += 10;
+
+            if (brightness > 100) {
+                brightness = 0;
+            }
+
+            LED_pwm(LED0, brightness);
+
+            printk("Brightness: %u%%\n", (unsigned int)brightness);
+        }
+
+        k_msleep(SLEEP_MS);
+    }
+
     return 0;
 }

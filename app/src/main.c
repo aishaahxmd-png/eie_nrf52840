@@ -4,13 +4,14 @@
 
 #include <stdint.h>
 #include <zephyr/kernel.h>
+#include <zephyr/sys/printk.h>
 #include "LED.h"
-#include "BTN.h" 
+#include "BTN.h"
 
 #define SLEEP_MS 1
 
 int main(void) {
-  
+
     if (BTN_init() < 0) {
         return 0;
     }
@@ -19,7 +20,7 @@ int main(void) {
         return 0;
     }
 
-    uint8_t brightness = 0;
+    uint8_t counter = 0;
 
     // Start with all LEDs OFF
     LED_set(LED0, LED_OFF);

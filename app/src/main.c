@@ -16,7 +16,7 @@ int main(void) {
   }
 
   while (1) {
-    if (BTN_check_clear_pressed()) {
+    if (BTN_check_clear_pressed(BTN0)) {
       LED_toggle(LED0);
       printk("Button 0 pressed\n");
     }

@@ -7,24 +7,20 @@
 
 int main(void) {
   LED_init();
+// Blink LED0 once per second
+  LED_blink(LED0, LED_1HZ);
 
-  while (1) {
-   LED_set(LED0, LED_ON);
-   k_msleep(500);
-   LED_set(LED0, LED_OFF);
+  // Blink LED1 twice per second
+  LED_blink(LED1, LED_2HZ);
 
-   LED_set(LED1, LED_ON);
-   k_msleep(500);
-   LED_set(LED1, LED_OFF);
+  // Blink LED2 four times per second
+  LED_blink(LED2, LED_4HZ);
 
-   LED_set(LED2, LED_ON);
-   k_msleep(500);
-   LED_set(LED2, LED_OFF);
+  // Blink LED3 eight times per second
+  LED_blink(LED3, LED_8HZ);
 
-   // Turn LED3 ON, then OFF
-  LED_set(LED3, LED_ON);
-  k_msleep(500);
-  LED_set(LED3, LED_OFF);
+   while (1) {
+    k_msleep(1000);
   }
   return 0;
 }

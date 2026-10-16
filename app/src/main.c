@@ -2,25 +2,31 @@
  * @file main.c
  */
 
+#include <stdint.h>
 #include <zephyr/kernel.h>
 #include "LED.h"
 
+#define STEP_DELAY_MS 100
+
 int main(void) {
-  LED_init();
-// Blink LED0 once per second
-  LED_blink(LED0, LED_1HZ);
+  if (LED_init() != 0) {
+        return 0;
+    }
 
-  // Blink LED1 twice per second
-  LED_blink(LED1, LED_2HZ);
+    while (1) {
 
-  // Blink LED2 four times per second
-  LED_blink(LED2, LED_4HZ);
+        // Gradually increase brightness
+        for (uint8_t duty_cycle = 0; duty_cycle <= 100; duty_cycle += 10) {
+            LED_pwm(LED0, duty_cycle);
+            k_msleep(STEP_DELAY_MS);
+        }
 
-  // Blink LED3 eight times per second
-  LED_blink(LED3, LED_8HZ);
+        // Gradually decrease brightness
+        for (int duty_cycle = 100; duty_cycle >= 0; duty_cycle -= 10) {
+            LED_pwm(LED0, duty_cycle);
+            k_msleep(STEP_DELAY_MS);
+        }
+    }
 
-   while (1) {
-    k_msleep(1000);
-  }
-  return 0;
+    return 0;
 }

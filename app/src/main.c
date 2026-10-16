@@ -21,21 +21,31 @@ int main(void) {
 
     uint8_t brightness = 0;
 
-    LED_pwm(LED0, brightness);
+    // Start with all LEDs OFF
+    LED_set(LED0, LED_OFF);
+    LED_set(LED1, LED_OFF);
+    LED_set(LED2, LED_OFF);
+    LED_set(LED3, LED_OFF);
 
     while (1) {
 
         if (BTN_check_clear_pressed(BTN0)) {
 
-            brightness += 10;
+            // Increase counter by 1
+            counter++;
 
-            if (brightness > 100) {
-                brightness = 0;
+            // Reset when counter reaches 16
+            if (counter == 16) {
+                counter = 0;
             }
 
-            LED_pwm(LED0, brightness);
+            // Display counter in binary using LEDs
+            LED_set(LED0, (counter & 1) ? LED_ON : LED_OFF);
+            LED_set(LED1, (counter & 2) ? LED_ON : LED_OFF);
+            LED_set(LED2, (counter & 4) ? LED_ON : LED_OFF);
+            LED_set(LED3, (counter & 8) ? LED_ON : LED_OFF);
 
-            printk("Brightness: %u%%\n", (unsigned int)brightness);
+            printk("Counter: %u\n", (unsigned int)counter);
         }
 
         k_msleep(SLEEP_MS);
